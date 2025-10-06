@@ -16,7 +16,7 @@ The work for this milestone is contained within the nested **`PrognosAI mileston
 | :--- | :--- |
 | **Objective:** Successfully load, preprocess, and prepare the CMAPSS dataset for model training. | **Achieved** |
 | **Deliverable:** Cleaned and preprocessed CMAPSS sensor data. | **Complete** (`data/processed/train_FD001_processed.csv`) |
-| **Deliverable:** Python scripts for data loading and preprocessing. | **Complete** (`notebooks/1.0_data_prep.ipynb`) |
+| **Deliverable:** Python scripts for data loading and preprocessing. | **Complete** (`notebooks/1_data_prep.ipynb`) |
 | **Deliverable:** Generated rolling window sequences. | **Complete** (`data/sequences/X_train_sequences.npy` and `Y_train_RUL.npy`) |
 | **Deliverable:** Computed RUL targets for all engine cycles. | **Complete** |
 
@@ -45,6 +45,8 @@ The root of the repository is the **`PrognosAI main folder`**. The milestone con
   - notebooks        # Script for loading, preprocessing, and sequence generation.
     - 1_data_prep.ipynb
   - requirements.txt    #List of all Python dependencies.
+  - .gitignore
+  - README.md
 
 ***
 
@@ -69,4 +71,4 @@ The root of the repository is the **`PrognosAI main folder`**. The milestone con
 
 ### 3. Running the Pipeline
 To re-verify the data preparation and view the final sequence generation logic, open and execute all cells in:
-`PrognosAI milestone 1/notebooks/1.0_data_prep.ipynb`
+`PrognosAI milestone 1/notebooks/1_data_prep.ipynb`
