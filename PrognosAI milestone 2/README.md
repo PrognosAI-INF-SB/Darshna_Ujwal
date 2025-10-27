@@ -23,22 +23,23 @@ The final optimized model achieves state-of-the-art performance on the test set:
 
 ## Project Structure
 
-PrognosAI milestone 2/
-  -data/
-    -processed/
-      -train_FD001_processed.csv    # Cleaned, scaled data
-    -raw/
-      -train_FD001.txt              # NASA CMAPSS Raw Data 
-    -sequences/
-      -X_train_sequences.npy        # LSTM/GRU Input sequences (50 timesteps)
-      -y_train_targets.npy          # Clipped RUL Targets
-  -models/
-    -best_rul_gru_final.h5            # Saved best model weights (Milestone 2 Deliverable) 
-  -notebooks/
-    -1_data_prep.ipynb                # Code for Milestone 1
-    -2_model_training.ipynb           # Code for Milestone 2 (Training and Evaluation)
-  -.gitignore                           # Files/folders to ignore in Git
-  -README.md                            # Project documentation
+
+The root of the repository is the **`PrognosAI main folder`**. The milestone content is nested here:
+- PrognosAI milestone 1/
+  - data
+    - raw            # Contains original dataset files (e.g., train_FD001.txt).
+    - processed      # Stores cleaned data (e.g., train_FD001_processed.csv).
+      - train_FD001_processed.csv
+    - sequenced      # Stores generated sequences (X_train_sequences.npy, Y_train_RUL.npy).
+      - X_train_sequences.npy        # LSTM/GRU Input sequences (50 timesteps)
+      - y_train_targets.npy          # Clipped RUL Targets
+  - notebooks        # Script for loading, preprocessing, and sequence generation.
+    - 1_data_prep.ipynb                # Code for Milestone 1
+    - 2_model_training.ipynb           # Code for Milestone 2 (Training and Evaluation)
+  - requirements.txt    #List of all Python dependencies.
+  - .gitignore          # Files/folders to ignore in Git
+  - README.md            # Project documentation
+
 
 ## Usage
 
