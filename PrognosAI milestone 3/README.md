@@ -25,21 +25,22 @@ The final optimized model achieves state-of-the-art performance on the test set:
 ## Project Structure
 
 PrognosAI milestone 2/
-  -data/
-    -processed/
-      -train_FD001_processed.csv    # Cleaned, scaled data
-    -raw/
-      -train_FD001.txt              # NASA CMAPSS Raw Data 
-    -sequences/
-      -X_train_sequences.npy        # LSTM/GRU Input sequences (50 timesteps)
-      -y_train_targets.npy          # Clipped RUL Targets
-  -models/
-    -best_rul_gru_final.h5            # Saved best model weights (Milestone 2 Deliverable) 
-  -notebooks/
-    -1_data_prep.ipynb                # Code for Milestone 1
-    -2_model_training.ipynb           # Code for Milestone 2 (Training and Evaluation)
-  -.gitignore                           # Files/folders to ignore in Git
-  -README.md                            # Project documentation
+  - data/
+    - processed/
+      - train_FD001_processed.csv    # Cleaned, scaled data
+    - raw/
+      - train_FD001.txt              # NASA CMAPSS Raw Data 
+    - sequences/
+      - X_train_sequences.npy        # LSTM/GRU Input sequences (50 timesteps)
+      - y_train_targets.npy          # Clipped RUL Targets
+  - models/
+    - best_rul_gru_final.h5            # Saved best model weights (Milestone 2 Deliverable) 
+  - notebooks/
+    - 1_data_prep.ipynb                # Code for Milestone 1
+    - 2_model_training.ipynb           # Code for Milestone 2
+    - 3_evaluation_and_analysis.ipynb  # Code for Milestone 3
+  - .gitignore                           # Files/folders to ignore in Git
+  - README.md                            # Project documentation
 
 ## Usage
 
