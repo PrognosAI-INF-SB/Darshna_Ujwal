@@ -10,7 +10,7 @@ This system employs deep learning techniques, specifically **Gated Recurrent Uni
 
 **Milestone 1: Data Preparation & Feature Engineering:** Successfully loaded, cleaned, and scaled the raw sensor data, calculated the RUL target, and generated rolling window sequences (50 timesteps).
 **Milestone 2: Model Development & Training:** Developed and trained a robust GRU-based deep learning model using unit-based splitting and RUL clipping (at 100 cycles) to maximize predictive accuracy.
-**Milestone 3: Evaluation & Analysis:** Rigorously assessed model performance, generated RUL prediction trend plots for individual engines, and analyzed prediction error biases.
+**Milestone 3: Evaluation and Alert System:** Confirmed model performance (R^2 > 0.95), analyzed prediction error biases, and implemented actionable risk thresholds (Warning: RUL<= 30 cycles and Critical: RUL<= 10$ cycles) to automatically trigger maintenance alerts.
 
 ## Key Results (Current Performance)
 
@@ -38,7 +38,7 @@ PrognosAI milestone 2/
   - notebooks/
     - 1_data_prep.ipynb                # Code for Milestone 1
     - 2_model_training.ipynb           # Code for Milestone 2
-    - 3_evaluation_and_analysis.ipynb  # Code for Milestone 3
+    - 3_evaluation_and_alerting.ipynb  # Code for Milestone 3
   - .gitignore                           # Files/folders to ignore in Git
   - README.md                            # Project documentation
 
@@ -48,4 +48,4 @@ PrognosAI milestone 2/
 2.  Run the notebooks sequentially:
     **`notebooks/1_data_prep.ipynb`**: Executes data cleaning, scaling, and sequence generation.
     **`notebooks/2_model_training.ipynb`**: Loads sequences, trains the optimized GRU model, evaluates performance, and saves the final model to `models/`.
-    **`notebooks/3_evaluation_and_analysis.ipynb`**: Loads the trained model, performs the final evaluation, and generates visual analysis of RUL prediction trends and errors.
+    **`notebooks/3_evaluation_and_alerting.ipynb`**: Loads the trained model, performs the final evaluation, and applies the risk thresholds to demonstrate the alert system.
