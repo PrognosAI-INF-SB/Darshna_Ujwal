@@ -10,32 +10,29 @@ from sklearn.model_selection import GroupShuffleSplit
 from sklearn.preprocessing import MinMaxScaler
 import os
 
-# --- Configuration (Must match Milestone 3/4) ---
+#Configuration
 SEED_VALUE = 42
 WINDOW_SIZE = 50
 RUL_CLIPPING_VALUE = 100
 THRESHOLD_WARNING = 30
 THRESHOLD_CRITICAL = 10
 
-# Paths for cached data/model (relative to project root)
 PROCESSED_DATA_PATH = 'data/processed/train_FD001_processed.csv' 
 MODEL_SAVE_PATH = 'models/best_rul_gru_model.h5' 
 
-# Define standard columns (needed for uploaded file consistency)
+#Define standard columns
 op_cols = ['op_setting_1', 'op_setting_2', 'op_setting_3']
 sensor_cols_full = [f's_{i}' for i in range(1, 27)]
 COLUMN_NAMES = ['unit_number', 'time_in_cycles'] + op_cols + sensor_cols_full
 TARGET_COLUMN = 'RUL_Clipped'
 
-# --- CRITICAL FIX: Hardcoded list of the 20 features based on the processed data ---
 FINAL_FEATURES_LIST = [
     'op_setting_1', 'op_setting_2', 'op_setting_3',
     's_2', 's_3', 's_4', 's_5', 's_6', 's_7', 's_8', 's_9', 's_11', 
     's_12', 's_13', 's_14', 's_15', 's_16', 's_17', 's_20', 's_21' 
 ]
-# Total count: 3 Operational + 17 Sensors = 20 features.
 
-# --- Preprocessing and Model Functions ---
+#Preprocessing and Model Functions
 
 def generate_alert(rul_prediction):
     if rul_prediction <= THRESHOLD_CRITICAL:
@@ -75,11 +72,10 @@ def generate_sequences(df, window_size, feature_cols, target_col):
     return np.array(X, dtype=np.float32), np.array(y, dtype=np.float32), np.array(groups)
 
 
-# --- Cached Assets Loading (Model, Scaler, Demo Data) ---
+#Cached Assets Loading
 
 @st.cache_resource
 def load_assets():
-    """Load model and fit scaler based on training data."""
     try:
         df_train = pd.read_csv(PROCESSED_DATA_PATH)
         
@@ -112,7 +108,6 @@ def load_assets():
 
 
 def run_demo_prediction_logic(df_full, model, scaler, feature_cols):
-    """Replicates the Milestone 3 test split logic to get demo data."""
     df_full['RUL_Clipped'] = df_full['RUL'].clip(upper=RUL_CLIPPING_VALUE)
     df_filtered = df_full[~df_full['unit_number'].isna()].copy()
     
@@ -125,7 +120,7 @@ def run_demo_prediction_logic(df_full, model, scaler, feature_cols):
     y_test = y[test_idx]
     groups_test = groups[test_idx]
     
-    del X; del y; del groups # Free memory
+    del X; del y; del groups 
 
     y_pred = model.predict(X_test).flatten()
     rmse = model.evaluate(X_test, y_test, verbose=0)[1]
@@ -140,7 +135,6 @@ def run_demo_prediction_logic(df_full, model, scaler, feature_cols):
 
 
 def predict_uploaded_data(uploaded_file, model, scaler, feature_cols):
-    """Processes uploaded file and returns predictions for the last sequence."""
     
     try:
         df_upload = pd.read_csv(uploaded_file, sep='\s+', header=None, names=COLUMN_NAMES, index_col=False)
@@ -173,24 +167,24 @@ def predict_uploaded_data(uploaded_file, model, scaler, feature_cols):
         return None, None
 
 
-# --- Streamlit Dashboard Layout ---
+#Streamlit Dashboard Layout
 
 st.set_page_config(layout="wide", page_title="PrognosAI: Predictive Maintenance Dashboard ⚙️")
 
-# Load global assets (Model, Scaler, Demo Data)
+#Load global assets
 model, scaler, feature_cols, results_df, test_rmse = load_assets()
 
-# --- Main Page Content ---
+#Main Page Content
 
 st.title("PrognosAI: Remaining Useful Life (RUL) Dashboard")
 st.markdown("---")
 
 
-## ⚙️ LIVE PREDICTION MODE
+#LIVE PREDICTION MODE
 st.header("Upload for Live RUL Prediction (New Asset)")
 st.markdown("Upload a sensor data file (e.g., TXT or CSV) for a single engine unit. **Must contain at least 50 cycles.**")
 
-# --- FILE UPLOADER ELEMENT ADDED HERE ---
+#FILE UPLOADER ELEMENT
 uploaded_file = st.file_uploader("Choose a sensor data file", type=['txt', 'csv'])
 
 if uploaded_file is not None:
@@ -217,7 +211,7 @@ if uploaded_file is not None:
     st.markdown("---")
     
     
-## 📊 DEMO MODE (CACHED TEST RESULTS)
+#DEMO MODE (CACHED TEST RESULTS)
 st.header("Demo Mode: Cached Test Set Evaluation")
 
 col1, col2, col3, col4 = st.columns(4)
@@ -235,7 +229,7 @@ col4.metric("Test RMSE", f"{test_rmse:.2f} cycles")
 
 st.markdown("---")
 
-## 📈 RUL Prediction Trends (Interactive Plotly Chart)
+#RUL Prediction Trends (Interactive Plotly Chart)
 st.subheader("RUL Prediction Trends and Alert Zones (Test Data)")
 
 engine_options = sorted(results_df['unit_number'].unique().tolist())
@@ -254,19 +248,19 @@ st.info(f"Engine Unit **{selected_engine}** Last Predicted RUL: **{last_predicti
 
 fig = go.Figure()
 
-# Add RUL Actual 
+#Add RUL Actual 
 fig.add_trace(go.Scatter(
     x=engine_data.index, y=engine_data['RUL_Actual'], mode='lines', name='Actual RUL (Clipped)',
     line=dict(color='darkblue', width=4), opacity=0.5, visible='legendonly' 
 ))
 
-# Add RUL Predicted
+#Add RUL Predicted
 fig.add_trace(go.Scatter(
     x=engine_data.index, y=engine_data['RUL_Predicted'], mode='lines', name='Predicted RUL',
     line=dict(color='red', width=3, dash='dash')
 ))
 
-# Add Alert Zones
+#Add Alert Zones
 fig.add_shape(type="rect", xref="paper", yref="y", x0=0, y0=THRESHOLD_CRITICAL, x1=1, y1=THRESHOLD_WARNING,
     fillcolor="orange", opacity=0.2, layer="below", line_width=0,
 )
@@ -274,11 +268,11 @@ fig.add_shape(type="rect", xref="paper", yref="y", x0=0, y0=0, x1=1, y1=THRESHOL
     fillcolor="red", opacity=0.3, layer="below", line_width=0,
 )
 
-# Add Alert Threshold Lines
+#Add Alert Threshold Lines
 fig.add_hline(y=THRESHOLD_WARNING, line_dash="dash", line_color="orange", annotation_text="WARNING THRESHOLD")
 fig.add_hline(y=THRESHOLD_CRITICAL, line_dash="dash", line_color="red", annotation_text="CRITICAL THRESHOLD")
 
-# Update Layout
+#Update Layout
 fig.update_layout(
     title=f'RUL Prediction for Engine Unit {selected_engine}', xaxis_title='Cycle Index (Relative to Start of Test Sequence)',
     yaxis_title='RUL (Remaining Useful Life in Cycles)', height=550, hovermode="x unified",
@@ -288,7 +282,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("---")
 
-## 🚨 Alert Status Distribution (Bar Chart)
+#Alert Status Distribution (Bar Chart)
 st.header("Current Alert Status Distribution")
 st.markdown("Last Known State of All Test Engines") 
 
