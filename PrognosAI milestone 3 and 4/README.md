@@ -10,7 +10,7 @@ This system employs deep learning techniques, specifically **Gated Recurrent Uni
 
 **Milestone 1: Data Preparation & Feature Engineering:** Successfully loaded, cleaned, and scaled the raw sensor data, calculated the RUL target, and generated rolling window sequences (50 timesteps).
 **Milestone 2: Model Development & Training:** Developed and trained a robust GRU-based deep learning model using unit-based splitting and RUL clipping (at 100 cycles) to maximize predictive accuracy.
-**Milestone 3: Evaluation and Alert System:** Confirmed model performance (R^2 > 0.95), analyzed prediction error biases, and implemented actionable risk thresholds (Warning: RUL<= 30 cycles and Critical: RUL<= 10$ cycles) to automatically trigger maintenance alerts.
+**Milestone 3 and 4: Evaluation and Alert System:** Confirmed model performance (R^2 > 0.95), analyzed prediction error biases, and implemented actionable risk thresholds (Warning: RUL<= 30 cycles and Critical: RUL<= 10$ cycles) to automatically trigger maintenance alerts.
 
 ## Key Results (Current Performance)
 
@@ -24,7 +24,7 @@ The final optimized model achieves state-of-the-art performance on the test set:
 
 ## Project Structure
 
-PrognosAI milestone 2/
+PrognosAI milestone 3 and 4/
   - data/
     - processed/
       - train_FD001_processed.csv    # Cleaned, scaled data
@@ -38,7 +38,7 @@ PrognosAI milestone 2/
   - notebooks/
     - 1_data_prep.ipynb                # Code for Milestone 1
     - 2_model_training.ipynb           # Code for Milestone 2
-    - 3_evaluation_and_alerting.ipynb  # Code for Milestone 3
+    - 3_evaluation_and_alerting.ipynb  # Code for Milestone 3 and 4
   - .gitignore                           # Files/folders to ignore in Git
   - README.md                            # Project documentation
 
